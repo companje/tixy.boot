@@ -108,4 +108,4 @@ draw:
 ; ...
 ```
 
-See <a href="https://github.com/companje/Sanyo-MBC-550-555-experiments/blob/main/tixy.boot/tixyboot.asm">tixyboot.asm</a> for the full source code.
+See [tixyboot.asm](tixyboot.asm) for the full source code.

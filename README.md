@@ -1,8 +1,8 @@
 # TIXY.BOOT
 tixy.boot by Rick Companje, 2021-2022, MIT licence.
-512 bytes bootsector code for 8086
+512 bytes bootsector code for Sanyo MBC-550/555 (8088)
 
-A tribute to Martin Kleppe's beautiful https://tixy.land as well as a tribute to the Sanyo MBC-550/555 PC (1984) which forced me to be creative with code since 1994.
+A tribute to Martin Kleppe's beautiful https://tixy.land as well as a tribute to the Sanyo MBC-550/555 PC (1983) which 'forced' me to be creative with code since 1994.
 
 The Sanyo MBC-55x has a very limited ROM BIOS. After some hardware setup by the ROM BIOS a RAM BIOS loaded from floppy takes over. This means that we don't have any BIOS functions when running our own code from the bootsector. 
 

@@ -35,7 +35,7 @@ cpu 8086
 COLS  equ 72
 TOP   equ 9*4*COLS+20*4    ; row=9,col=20
 RED   equ 0xf0
-GREEN equ 0x0c
+GREEN equ 0x08
 BLUE  equ 0xf4
 
 effect_timeout equ 30      ; every 30 frames another effect
@@ -49,63 +49,35 @@ isqrt_table    equ 1000    ; available location in code segment
 
 jmp setup
 
-; some parts of FAT12 table is included here to be able to mount the binary 
-; as a diskimage on Mac. This seems also to be needed for FlashFloppy to
-; recognize the diskimage. The Sanyo does not need the regular bootsector 
-; signature 0x55 0xAA
-
-fx_table:      ; the 'effects' table: 8 bytes, overwriting the 'Sanyo1.2' tag
-    db fx0,fx1,fx2,fx3,fx4,fx5,fx6,fx7 
-    ; %assign num 8-($-fx_table) 
-    ; times num db 0x20
-
-    ; db 'Sanyo1.2'
-    dw 512     ; Number of bytes per sector
-    db 2       ; Number of sectors per cluster
-    db 1       ; Number of FAT copies
-    dw 512     ; Number of root directory entries
-    db 112     ; Total number of sectors in the filesystem
-    db 0       ; Media descriptor type
-    dw 512     ; Number of sectors per FAT
-    dw 765     ; ? Number of sectors per track
-    ; db 0     ; ? Number of heads   (now first byte of sine table)
-    ; db 9     ; ? Number of heads  
-    ; dw 512   ; Number of hidden sectors
-    ; the the last 4 bytes of the FAT12 table are overwritten by the sine table
-
 sin_table: ;31 bytes, (input -15..15 index=0..31)
     db 0,-3,-6,-9,-11,-13,-15,-15,-15,-15,-13,-11,-9,-6,-3,
     db 0, 3, 6, 9, 11, 13, 15, 15, 15, 15, 13, 11, 9, 6, 3,0  
     ; tried to mirror the second line of the sine table with code 
     ; but would take a same of amount of bytes
 
-fx0: ; x
-    mov al,x
-    ret
+fx_table:      ; the 'effects' table: 8 bytes, overwriting the 'Sanyo1.2' tag
+    db fx0,fx1,fx2,fx3,fx4,fx5
 
-fx1: ; y-7
-    mov al,y
-    sub al,7
-    ret
-
-fx2: ; y+t
+fx1: ; y+t
     mov al,y
     add al,t
     ret
 
-fx3: ; y-t
-    mov al,y
-    sub al,x
+fx0: ; xor
+    mov al,x
+    xor al,y
+    or al,t
+    sub al,7
     ret
 
-fx4: ; sin(x+y+t)
+fx2: ; sin(x+y+t)
     mov al,x
     add al,y
     add al,t
     call sin
     ret
 
-fx5: ; bitmap_data[i+t]
+fx3: ; bitmap_data[i+t]
     push bx
     mov al,i
     add al,t
@@ -114,7 +86,7 @@ fx5: ; bitmap_data[i+t]
     pop bx
     ret
 
-fx6: ; ((y-x)*-8)+t
+fx4: ; ((y-x)*-8)+t
     mov al,y
     sub al,x
     mov cl,-8
@@ -123,7 +95,7 @@ fx6: ; ((y-x)*-8)+t
     add al,t
     ret
 
-fx7: ; sin(sqrt(x^2+y^2))-t)
+fx5: ; sin(sqrt(x^2+y^2))-t)
     mov al,i   ; isqrt_table[i] = sqrt(x^2+y^2)
     push bx
     mov bx,isqrt_table
@@ -273,7 +245,7 @@ draw_char_color:
     jb draw                 ; next frame
     inc bp                  ; inc effect
     xor t,t                 ; reset time
-    cmp bp,8
+    cmp bp,6
     jl draw                 ; next effect
     xor bp,bp               ; reset effect
     jmp draw

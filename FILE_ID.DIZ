@@ -10,21 +10,18 @@ grTz 2 aem1k,nanochess,superogue,zeroZshadow
 ───────────────────────────────────────────
 
 I love my Sanyo MBC-555 computer from 1983. 
-It's it a NOT-so-IBM-compatible 8088 PC, had
-no ROM-BIOS a very inconvenient VRAM mapping.
-It shipped with MS-DOS 1.25, Sanyo BASIC and
-DEBUG.COM. That got me into 8088 assembly 
-programming. It had no 'assemble'-command,
-so back then I had to enter my progams as
-HEX values.
+It's a NOT-so-IBM-compatible 8088 PC. It has
+no real ROM-BIOS and a very inconvenient 
+VRAM mapping. It shipped with MS-DOS 1.25,
+Sanyo BASIC and DEBUG.COM. That got me into
+8088 assembly programming. My version of DEBUG
+had no 'assemble'-command,so back then I had
+to enter my progams as HEX values.
 
-My contrib to Outline 2025 is a 256 Byte
-Oldskool Intro inspired by a tixy.land.
+My contrib to Outline 2025 is a 256 byte
+Oldskool Intro inspired by tixy.land by aem1k.
 It runs in the bootsector of the Sanyo
-without BIOS and without OS.
-
-It is a tiny Creative Coding environment.
-You can create your own effects in 8088 ASM.
+without BIOS or OS.
 
 During the party I had to reduce my code 
 from 512 to 256 to join the compo. 

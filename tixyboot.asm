@@ -15,58 +15,72 @@ BLUE  equ 0xf4
 jmp setup
 
 fx_table:      
-    db fx7,fx0,fx1,fx2,fx3,fx4,fx5,fx6
+    db fx0,fx1,fx2,fx3,fx4,fx5,fx6,fx7
 
 fx0: ; y+t
-    mov al,y
-    add al,t
+    mov al,t
+    ; sub al,i
+    add al,x
+    add al,y
     ret
 
 fx1: ; x+y+t
     mov al,x
     add al,y
     add al,t
+    and al,31
+    sub al,15
     ret
 
 fx2: 
     mov al,x
     sub al,y
     sub al,t
+    and al,31
+    sub al,15
     ret
 
-fx3: ; xor
+fx3:
+    add al,t
+    and al,31
+    sub al,15
+    ret
+
+fx4: ; xor
     mov al,x
     xor al,y
     add al,t
-    sub al,7
+    and al,31
+    sub al,15
     ret
 
-fx4: ; bitmap_data[i+t]
-    push bx
-    mov al,i
-    add al,t
-    mov bx,0
-    xlat
-    pop bx
-    ret
-
-fx5: ; ((y-x)*-8)+t
+fx5: ; 
     mov al,y
     sub al,x
     mov cl,-8
     mul cl
-    ; call limit
     add al,t
+    and al,31
+    sub al,15
     ret
 
-fx6:
-    add al,t
-    ret
+fx6: ; ((y-x)*-8)+t
+    mov al,y
+    sub al,x
+    mov cl,-8
+    mul cl
+    ;geen ret hier
+
+
 
 fx7:
     mov al,x
+    ; mov cl,y
+    inc al
     mul y
     add al,t
+    and al,31
+    sub al,15
     ret
 
 setup:                      ; starting point of code
@@ -79,17 +93,19 @@ setup:                      ; starting point of code
     pop es                  ; es:di in code segment
 
 
-;     mov di,bitmap_data
-;     mov cx,16*4*4
-;     mov ax,-1
-; .lp:
-;     test cx,3
-;     jnz .sk
-;     shr ax,1
-; .sk:
-;     stosw
-;     stosw
-;     loop .lp
+    mov di,bitmap_data
+    mov cx,16*4*4
+    mov ax,-1
+.lp:
+    test cx,3
+    jnz .sk
+    ; xchg ah,al
+    ; mov ax,0x5555
+    shr ax,1
+.sk:
+    stosw
+    stosw
+    loop .lp
 
 
 
@@ -120,8 +136,13 @@ dot:
     pop bx
     call bp                 ; call the effect function
     
-    ; out 0x3a,al
 
+    ;more red!
+    ; and al,31
+    ; sub al,15
+
+    ; out 0x3a,al
+    
     pop bp
  
 draw_char_color:
@@ -130,25 +151,32 @@ draw_char_color:
     jge .red
     neg al
   .red:
-
     mov cl, 4
     and al,15               ; limit al to 15
     cbw                     ; ah=0
     shl al,cl               ; al*=16
     add ax,bitmap_data
 
-
     mov cx,RED << 8              ; ch=0xf0, cl=0
     call draw_char
+
     popf
     jge .green_blue
     ; xor al,al               ; if negative then just red so clear (al=0) green and blue
-    mov ax,bitmap_data
+    mov ax,bitmap_data ; this is the same as al=0 (empty character)
+
   .green_blue:
-    mov ch,GREEN
+    mov cx,GREEN<<8
     call draw_char
-    mov ch,BLUE
+    mov cx,BLUE<<8
     call draw_char
+
+    ; mov ch,GREEN
+    ; call draw_char
+    ; mov ch,BLUE
+    ; call draw_char
+    
+
   .next:  
     inc i                   ; i++
 
@@ -166,8 +194,9 @@ draw_char_color:
     jmp draw
 
 draw_char:                  ; es:di=vram (not increasing), al=char 0..15, destroys cx
-    ; push ax
     push di
+    ; push si
+    ; push cx
 
     push cx
     pop es                  ; es (color channel was in cx)
@@ -189,16 +218,16 @@ draw_char:                  ; es:di=vram (not increasing), al=char 0..15, destro
     mov si,ax 
     rep movsw
 
+    ; pop cx
+    ; pop si
     pop di                    
-    ; pop ax
     ret
 
 
 bitmap_data:                          ; destination for 128 bytes rendered bitmap data
-    incbin "Tixy-mini-char-Sheet.spr"
+    ; incbin "Tixy-mini-char-Sheet.spr"
 
 %assign num $-$$
 %warning total num
-
 
 times (180*1024)-num db  0                 ; fill up with zeros until file size=180k

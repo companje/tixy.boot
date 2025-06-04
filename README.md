@@ -76,7 +76,7 @@ result:
 
 <img src="doc/screengrab.gif">
 
-**Note: this code is written for a Sanyo MBC-550/555 PC!**
+**Note: this code is written for a Sanyo MBC-550/555 PC! It won't work on a regular IBM-compatible-PC**
 
 See [tixyboot.asm](tixyboot.asm) for the full source code.
 

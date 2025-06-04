@@ -61,7 +61,7 @@ In the 256 bytes version there's no sine function anymore. Also no sqrt function
 But maybe, once... we can add it again or come up with a replacement (superogue had some tips I remember)
 
 # Old code snippets.
-Instead have a look at the tixyboot.asm file because multiple things changed. al is now between 0..31 instead of -15..15 for example.
+Instead have a look at the See [tixyboot.asm](tixyboot.asm) for the full source code. file because multiple things changed. al is now between 0..31 instead of -15..15 for example.
 
 ```
 t = time  0..255
@@ -78,7 +78,7 @@ result:
 
 **Note: this code is written for a Sanyo MBC-550/555 PC!**
 
-See <a href="https://github.com/companje/Sanyo-MBC-550-555-experiments/blob/main/tixy.boot/tixyboot.asm">tixyboot.asm</a> for the full source code.
+See [tixyboot.asm](tixyboot.asm) for the full source code.
 
 ```asm
 ; ...

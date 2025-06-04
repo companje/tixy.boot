@@ -14,9 +14,9 @@ It's a NOT-so-IBM-compatible 8088 PC. It has
 no real ROM-BIOS and a very inconvenient 
 VRAM mapping. It shipped with MS-DOS 1.25,
 Sanyo BASIC and DEBUG.COM. That got me into
-8088 assembly programming. My version of DEBUG
-had no 'assemble'-command,so back then I had
-to enter my progams as HEX values.
+8088 assembly programming back in the days (1993).
+My version of DEBUG had no 'assemble'-command,
+so I had to enter my progams as HEX values.
 
 My contrib to Outline 2025 is a 256 byte
 Oldskool Intro inspired by tixy.land by aem1k.
@@ -27,7 +27,14 @@ During the party I had to reduce my code
 from 512 to 256 to join the compo. 
 Thanks for all the help and fun!
 
-Sanyoman2 alias RickyboyII
+Thank you:
+- aem1k to come up with https://tixy.land!
+- nanochess for writing 2 great books about bootsector games
+- superogue and others at Outline 2025 for the warm welcome to the DemoScene
+- zeroZshadow for diving really into the code with me and implementing great improvements
+
+Best wishes,
+Sanyoman2 aka RickyboyII
 
 
 

@@ -60,8 +60,7 @@ Sanyoman2 aka RickyboyII
 In the 256 bytes version there's no sine function anymore. Also no sqrt function.
 But maybe, once... we can add it again or come up with a replacement (superogue had some tips I remember)
 
-# Old code snippets.
-Instead have a look at the See [tixyboot.asm](tixyboot.asm) for the full source code. file because multiple things changed. al is now between 0..31 instead of -15..15 for example.
+The sourcecode for the 512 bytes version is here: [tixy512.asm](https://github.com/companje/tixy.boot/blob/cbdcbff803cff33bf6497a35286790aa3c595b5a/tixyboot.asm)
 
 ```
 t = time  0..255
